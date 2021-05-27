@@ -41,6 +41,11 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+		</dependency>
 
 	</dependencies>
 
