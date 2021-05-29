@@ -17,7 +17,7 @@ public class Tweet {
 
 	private String title;
 
-	private Integer tweetId;
+	private long tweetId;
 
 	@Relationship(type="REPLYTO", direction=Relationship.Direction.OUTGOING)
 	private Tweet reply;
