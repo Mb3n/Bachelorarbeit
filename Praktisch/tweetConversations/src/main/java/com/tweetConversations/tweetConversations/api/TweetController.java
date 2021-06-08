@@ -21,7 +21,7 @@ public class TweetController {
 	TweetService tweetService;
 
 	@GetMapping
-	public List<Tweet> getAll() throws TwitterException {
+	public List<Tweet> getAll() throws TwitterException, InterruptedException {
 
 		//System.out.println("TWEETS: " + tweetService.getLatestTweets());
 
