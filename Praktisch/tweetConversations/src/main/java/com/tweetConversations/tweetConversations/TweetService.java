@@ -59,158 +59,98 @@ public class TweetService {
 	 */
 
 	public void startDiscussion() throws TwitterException, InterruptedException {
-		/*
-		ResponseList<Location> locations;
-		locations = twitter.getAvailableTrends();
-		System.out.println("Showing available trends");
-		for (Location location : locations) {
-			System.out.println(location.getName() + " (woeid:" + location.getWoeid() + ")");
-		}
-
-		 */
 		Trends trends = twitter.getPlaceTrends(GERMANY_LOCATION_WOEID);
-		//for (int i = 0; i < trends.getTrends().length; i++) {
-		//	if (trends.getTrends()[i].getTweetVolume() > 10000) {
-				try {
-					System.out.println("GERMAN TRENDS: " + trends.getTrends()[0]);
+		try {
+			Status mostFollowedUsersTweetT = getMostInteractedTweetFromTrend(trends);
 
-					Query query = new Query(trends.getTrends()[0].getQuery());
-					query.setCount(100);
-					QueryResult result = twitter.search(query);
-					long mostFollowedUsersTweetId = getHighestInteractionTweet(result.getTweets()).getRetweetedStatus().getId();
+			if (mostFollowedUsersTweetT.getQuotedStatus() != null) {
+				System.out.println("QUATED STATUS: " + mostFollowedUsersTweetT.getQuotedStatus());
 
-					Query queryq = new Query(""+mostFollowedUsersTweetId);
-					QueryResult resultq = twitter.search(queryq);
-					Status mostFollowedUsersTweetT =resultq.getTweets().get(0);
+				Optional<Status> mostFollowedUsersTweetOpt = twitter.getUserTimeline(mostFollowedUsersTweetT.getQuotedStatus().getUser().getScreenName()).stream().filter(a -> a.getId() == mostFollowedUsersTweetT.getQuotedStatus().getId()).findFirst();
 
-					if (mostFollowedUsersTweetT.getQuotedStatus() != null) {
-						System.out.println("QUATED STATUS: " + mostFollowedUsersTweetT.getQuotedStatus());
-
-						//Query queryq1 = new Query(""+mostFollowedUsersTweetT.getQuotedStatus().getId());
-						//QueryResult resultq1 = twitter.search(queryq1);
-						Optional<Status> mostFollowedUsersTweetOpt = twitter.getUserTimeline(mostFollowedUsersTweetT.getQuotedStatus().getUser().getScreenName()).stream().filter(a -> a.getId() == mostFollowedUsersTweetT.getQuotedStatus().getId()).findFirst();
-
-						mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
-							Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).build());
-							System.out.println(" TWEET MIT grosser Follower Zahl: " + mostFollowedUsersTweet);
-							List<Status> discussionOnRootTweet = null;
-							try {
-								discussionOnRootTweet = getDiscussion(mostFollowedUsersTweet, twitter);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							discussionOnRootTweet.forEach(reply -> {
-
-								Tweet replyTweet = Tweet.builder().tweetId(reply.getId()).title(reply.getText()).reply(rootTweet).build();
-								tweetRepository.save(replyTweet);
-
-								List<Status> discussionOnReply = null;
-								try {
-									discussionOnReply = getDiscussion(reply, twitter);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								discussionOnReply.forEach(discussionReply -> {
-
-									tweetRepository.save(Tweet.builder().tweetId(discussionReply.getId()).title(discussionReply.getText().substring(discussionReply.getUser().getScreenName().length())).reply(replyTweet).build());
-								});
-							});
-						});
+				mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
+					Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).build());
+					System.out.println(" TWEET MIT grosser Follower Zahl: " + mostFollowedUsersTweet);
+					List<Status> discussionOnRootTweet = null;
+					try {
+						discussionOnRootTweet = getDiscussion(mostFollowedUsersTweet, twitter);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
+					discussionOnRootTweet.forEach(reply -> {
 
-					if (mostFollowedUsersTweetT.getRetweetedStatus() != null) {
-						System.out.println("RETQEET STATUS: " + mostFollowedUsersTweetT.getRetweetedStatus());
+						Tweet replyTweet = Tweet.builder().tweetId(reply.getId()).title(reply.getText()).reply(rootTweet).build();
+						tweetRepository.save(replyTweet);
 
+						List<Status> discussionOnReply = null;
+						try {
+							discussionOnReply = getDiscussion(reply, twitter);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						discussionOnReply.forEach(discussionReply -> {
 
-						//Query queryq1 = new Query(""+mostFollowedUsersTweetT.getRetweetedStatus().getId());
-						//QueryResult resultq1 = twitter.search(queryq1);
-						//System.out.println("TWEETS: " + resultq1.getTweets());
+							tweetRepository.save(Tweet.builder().tweetId(discussionReply.getId()).title(discussionReply.getText().substring(discussionReply.getUser().getScreenName().length())).reply(replyTweet).build());
+						});
+					});
+				});
+			}
 
+			if (mostFollowedUsersTweetT.getRetweetedStatus() != null) {
 
-						String url = "https://twitter.com/" + mostFollowedUsersTweetT.getRetweetedStatus().getUser().getScreenName() + "/status/" + mostFollowedUsersTweetT.getRetweetedStatus().getId();
-						System.out.println("Twitter URL:"+url);
+				Optional<Status> mostFollowedUsersTweetOpt = twitter.getUserTimeline(mostFollowedUsersTweetT.getRetweetedStatus().getUser().getScreenName()).stream().filter(a -> a.getId() == mostFollowedUsersTweetT.getRetweetedStatus().getId()).findFirst();
 
-						//System.out.println("URL OF TWEET" + url);
-						//twitter.getUserTimeline(mostFollowedUsersTweetT.getRetweetedStatus().getUser().getScreenName());
-						//System.out.println("URL TWEET : " + twitter.getUserTimeline(mostFollowedUsersTweetT.getRetweetedStatus().getUser().getScreenName()).stream().filter(a -> a.getId() == mostFollowedUsersTweetT.getRetweetedStatus().getId()).findFirst());
+				mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
+					Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).build());
+					System.out.println(" TWEET MIT grosser Follower Zahl: " + mostFollowedUsersTweet);
+					List<Status> discussionOnRootTweet = null;
+					try {
+						discussionOnRootTweet = getDiscussion(mostFollowedUsersTweet, twitter);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					discussionOnRootTweet.forEach(reply -> {
+						//tweetRepository.save(Tweet.builder().tweetId(reply.getId()).title(reply.getText().substring(reply.getUser().getScreenName().length())).reply(rootTweet).build());
 
+						Tweet replyTweet = Tweet.builder().tweetId(reply.getId()).title(reply.getText()).reply(rootTweet).build();
+						tweetRepository.save(replyTweet);
 
-						Optional<Status> mostFollowedUsersTweetOpt = twitter.getUserTimeline(mostFollowedUsersTweetT.getRetweetedStatus().getUser().getScreenName()).stream().filter(a -> a.getId() == mostFollowedUsersTweetT.getRetweetedStatus().getId()).findFirst();
+						List<Status> discussionOnReply = null;
+						try {
+							discussionOnReply = getDiscussion(reply, twitter);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						discussionOnReply.forEach(discussionReply -> {
 
-						mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
-							Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).build());
-							System.out.println(" TWEET MIT grosser Follower Zahl: " + mostFollowedUsersTweet);
-							List<Status> discussionOnRootTweet = null;
-							try {
-								discussionOnRootTweet = getDiscussion(mostFollowedUsersTweet, twitter);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							discussionOnRootTweet.forEach(reply -> {
-								tweetRepository.save(Tweet.builder().tweetId(reply.getId()).title(reply.getText().substring(reply.getUser().getScreenName().length())).reply(rootTweet).build());
-							});
+							tweetRepository.save(Tweet.builder().tweetId(discussionReply.getId()).title(discussionReply.getText().substring(discussionReply.getUser().getScreenName().length())).reply(replyTweet).build());
 						});
 
-
-					}
-				} catch (TwitterException twitterExceeption) {
-					if (twitterExceeption.getRateLimitStatus().getRemaining() == 0) {
-						System.out.println("SLEEPING IN START DISCUSSION.....");
-						Thread.sleep(900000);
-						startDiscussion();
-					}
-				}
+					});
+				});
 
 
+			}
+		} catch (TwitterException twitterExceeption) {
+			if (twitterExceeption.getRateLimitStatus().getRemaining() == 0) {
+				System.out.println("SLEEPING IN START DISCUSSION.....");
+				Thread.sleep(900000);
+				startDiscussion();
+			}
+		}
+	}
 
-		//	}
+	private Status getMostInteractedTweetFromTrend(Trends trends) throws TwitterException {
+		System.out.println("GERMAN TRENDS: " + trends.getTrends()[1]);
 
-		//}
-
-		/*
-		ResponseList<Status> homeTimeline = twitter.getHomeTimeline();
-		Status rootStatus = homeTimeline.get(15);
-		System.out.println("ROOT_TWEET: " + rootStatus);
-		List<Status> status = getDiscussion(rootStatus, twitter);
-		System.out.println("DISS: " + status);
-
-		 */
-
-
-		/*
-		Tweet rootTweet = Tweet.builder().tweetId(rootStatus.getId()).title(rootStatus.getText()).build();
-		tweetRepository.save(rootTweet);
-
-		status.forEach(reply -> {
-			Tweet tweet = Tweet.builder().tweetId(reply.getId()).title(reply.getText()).reply(rootTweet).build();
-			tweetRepository.save(tweet);
-		});
-
-		 */
-
-		/*
-		Query query = new Query("1399057365287247872");
+		Query query = new Query(trends.getTrends()[1].getQuery());
+		query.setCount(100);
 		QueryResult result = twitter.search(query);
-		System.out.println("ID: " + result.getTweets().get(0).getId());
-		System.out.println(tweetRepository.findTweetByTweetId(result.getTweets().get(0).getId()));
-		Status rootStatus =result.getTweets().get(0);
+		long mostFollowedUsersTweetId = getHighestInteractionTweet(result.getTweets()).getRetweetedStatus().getId();
 
-
-		List<Status> status = getDiscussion(rootStatus.getQuotedStatus(), twitter);
-		System.out.println("DISS; " + status);
-
-
-		Tweet rootTweet = Tweet.builder().tweetId(rootStatus.getId()).title(rootStatus.getText()).build();
-		tweetRepository.save(rootTweet);
-
-		status.forEach(reply -> {
-			Tweet tweet = Tweet.builder().tweetId(reply.getId()).title(reply.getText()).reply(rootTweet).build();
-			tweetRepository.save(tweet);
-		});
-
-		 */
-
-
+		Query queryq = new Query(""+mostFollowedUsersTweetId);
+		QueryResult resultq = twitter.search(queryq);
+		return resultq.getTweets().get(0);
 	}
 
 	private Status getHighestInteractionTweet(List<Status> tweets) {
