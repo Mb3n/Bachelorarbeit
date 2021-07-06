@@ -1,0 +1,153 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \\documentclass\{article\}\
+\\usepackage[utf8]\{inputenc\}\
+\\usepackage\{graphicx\}\
+\\begin\{document\}\
+\
+\\section*\{1 Einleitung\}\
+Soziale Netzwerke wie Facebook, Instagram und Twitter sind in den letzten Jahren sehr stark gewachsen und haben somit einen gro\'dfen Platz in unserer Gesellschaft eingenommen. Jede dieser Plattformen hat t\'e4glich mehrere Hunderte Millionen an aktiven Nutzern. Diese Nutzer kreieren oder konsumieren tagt\'e4glich "Content" auf diesen Plattformen. Auch wenn man selber keinen "Content" erzeugt, interagiert man immer mit den anderen Nutzern in Form von Likes, Kommentaren oder impressionen also das erreichen/sehen des Posts. \\\\\
+\\\\\
+Dadurch sind die Sozialen Netzwerke auch ein gro\'dfens Gebiet in der Forschung geworden, da man sonst nirgendswo auf so viel Daten von Usern st\'f6\'dft. Es ist immer interressanter geworden, zu verstehen wie die Kommunikation auf solchen Plattformen in der \'d6ffentlichkeit vonstattengeht. Denn man kann somit untersuchen und verstehen wie Menschen online mit anderen Menschen kommunizieren. Des weiteren ist es m\'f6glich Konversationen und Diskussionen \'fcber bestimmte Themen zu analysieren. Es ist m\'f6glich das Verhalten der Menschen auf bestimmte Themen/Informationen zu verstehen und nachzuvollziehen wie diese Menschen damit umgehen. Und es ist m\'f6glich nachzuvollziehen wie sich Themen/Informationen in Sozialen Netzwerken ausbreiten. Wodurch sich dann ganze Netzwerke an User und Antworten auf die Themen/Informationen bilden.\\\\\
+\\\\\
+Dadurch das Twitter eine sehr beliebte Plattform f\'fcr den Themen-Austausch ist, besch\'e4ftigt sich diese Arbeit mit der "Microblogging"-Plattform Twitter. Denn auf Twitter finden Konversation nicht nur zwischen einzelnen Usern statt, sondern werden durch \'d6ffentlich sichtabaren "Trends" von Millionen an Usern gef\'fchrt. Deswegen ist es hier besonders spannend mit diesen Konversationen zu arbeiten, da hier besonders viele User aufeinander prallen und an den Konversationen teilnehmen k\'f6nnen. Desweiteren bietet Twitter eine API Schnittstelle an, welches das arbeiten mit den Konversation \'fcberhaupt erst m\'f6glich macht. \\\\\
+\\\\\
+Mit der Twitter API wird in dieser Arbeit ein verfahren entwickelt, ganze Konversationen von Twitter abzugreifen. Dazu m\'fcssen m\'f6glichst gro\'dfe Konversationen gefunden werden, diese m\'fcssen extrahiert werden und in einer analysierbaren Form gespeichert werden damit diese Konversationen in Zukunft weiter verwertbar sind. Dies gilt es zu schaffen, ohne die Twitter API an ihr limit zu bringen, denn diese API ist f\'fcr Drittsysteme zur begrenzt verf\'fcgbar. Diese begrenzte Verf\'fcgbarkeit ist dadruch zu stande gekommen, das Soziale Medien in de letztn Jahren immer mehr unter Druck der \'d6ffentlichkeit stehen um Nutzer Daten vor Drittsystemen zu sch\'fctzen. Desweitere sind Nutzer Daten f\'fcr diesew Plattformen das h\'f6chste Gut, da sie damit auch ihr Geld verdienen. Deswegen stellen Sie diese Dienste nur begrenzt zur Verf\'fcgung, was ein bestimmtes Abfrage limit in einem bestimmten Zeitraum bedeutet.\
+\
+\\section*\{1.1 Problembeschreibung\}\
+Um von Twitter ganze Konversationen zu extrahieren, und diese strukturiert darzustellen, gilt es einige Probleme auszumerzen. Das erste Problem was es zu l\'f6sen gilt, ist es Konversationen zu finden an denen m\'f6glichst viele Interaktionen stattfinden. Danach gilt es einen Algorithmus zu entwickeln und zu implementieren, welcher diese Konversationen abgreift. Dabei beinhaltet eine Konversation den "Haupt-" Tweet, welcher der Ankerpunkt der ganzen Konversation ist. Auf diesen "Haupt-" Tweet k\'f6nnen unbegrenzt viele Antworten von unbegrenzt vielen Usern stattfinden. Dieser "Haupt-" Tweet und die Antworten bilden dann die gesamte Konversation.\\\\\
+\\\\\
+Die Konversationen, also der "Haupt-" Tweet und die "Antwort-" Tweets werden durch die Twitter-API abgegriffen. Die n\'e4chste H\'fcrde die es zu \'fcberwinden gilt, ist die Limitierung der Twitter-API. Denn diese Limitierung beeinhaltet zum Beispiel die Regel, das innerhalb von 15 Minuten nur 300 Tweets abgefragt werden k\'f6nnen. Dieses Limit ist bei gro\'dfen Konversationen nat\'fcrlich schnell erreicht. Deswegen gilt es in dieser Arbeit trotz der Einschr\'e4nkungen ein verfahren zu finden, welches das abgreifen von den gro\'dfen Konversationen m\'f6glich macht. Dabei gilt es au\'dferdem zu ber\'fccksichtigen, das Twitter \'fcber die Twitter-API nicht direkt die gesamte Konversation ausliefert, sondern lediglich eine Id ausgibt, zu welcher Konversation ein Tweet geh\'f6rt.\\\\\
+\\\\\
+Dadurch das man nicht direkt an die gesamte Konversation durch die Twitter-API kommt, sondern nur an die Tweets mit einer Id, zu welcher Konversation diese Tweets geh\'f6ren, gilt es ein Weg zu finden, um dennoch die gesamte Konversation, so wie diese auf Twitter stattgefunden hat, auch wieder darzustellen.\\\\\
+\\\\\
+Des Weiteren sind nach dem einmaligen Abgreifen der Daten, die Konversationen nicht beendet. Also muss in dem Verfahren ber\'fccksichtigt werden, das Konversation im laufe der Zeit wachsen k\'f6nnen. Somit m\'fcssen die Konversationen nicht nur einmalig, initial abgegriffen und wieder strukturiert dargestellt werden, sondern Sie m\'fcssen auch erweiterbar sein und erweiterbar bleiben. Deswegen bietet es sich an die Konversationen nach dem Sie abstrahiert wurden sind, als Graphen darzustellen. Denn somit ist die Konversation geordnet und immer erweiterbar sowohl in der Breite, als auch in der Tiefe. \
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\
+\\section*\{1.2 Aufbau der Arbeit\}\
+\
+In Kapitel 2 werden alle technischen und fachlichen sowie Konzepte und Definitionen vorgestellt. \\\\\
+\\\\\
+In Kapitel 3 wird der Aufbau und die durchf\'fchrung des Algorithmusses n\'e4hergebracht, welche die L\'f6sung auf die Probkembeschreibung wiederspiegelt.\\\\\
+\\\\\
+In Kapitel 4 wird der Datensatz welcher sich aus der Visualisierung der gesammelten Daten, welche sich aus dem Algorithmus aus Kapitel 3 ergeben analysiert. \\\\\
+\\\\\
+In Kapitel 5 wird die Analyse aus Kapitel 4 mit anderen Verfahren verglichen und bewertet.\\\\\
+\\\\\
+In Kapitel 6 gibt es eine Zusammenfassung und ein Fazit zu den vorherigen Kapiteln. Desweiteren wird es einen Ausblick geben wozu die Datens\'e4tze verwendet werden k\'f6nnen und wo es gegebenenfalls noch Verbesserungspotential gibt und welche Probleme f\'fcr die Zukunft noch offen bleiben.\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\\\\
+\\section*\{2 Grundlagen\}\
+In diesem Kapitel, werden die wichtiges Komponenten und Definitionen die zum verstehen des Algorithmus und der Analyse des Datensatzes gebraucht werden. Au\'dferdem wird die technische Implementierung erl\'e4utert um das Zusammenspiel der Komponenten zu verstehen.\
+\\section*\{2.1 Twitter\}\
+Twitter ist ein Mikroblogging Dienst, der sich darauf konzentriert hat wichtige Kurznachrichten durch Ihre User zu verbreiten. Diese Kurznachrichten, werden meist \'fcber "Hashtags" gruppiert. User des Dienstes Twitter haben einen Account welcher aus einem Namen, der Herrkunft und den Interressen des Users besteht. Au\'dferdem k\'f6nnen User anderen Usern "folgen" und genauso k\'f6nnen andere User einem selbst "folgen". Diese "folgen" Funktion hat den Vorteil, das der User auf seiner "Timeline" also auf seiner Startseite alle Interaktionen der User sieht, denen er folgt. Diese Interaktionen, k\'f6nnen aus Tweets, Antworten auf Tweets, Likes oder Retweets bestehen. Ein Tweet, also eine Kurznachricht welche von einem User verfasst wird, kann bis zu 140 Zeichen enthalten. Des weiteren k\'f6nnen die Tweets um "Hashtags" welche mit einer Raute vorrangehen und mit Erw\'e4hnungen an anderen User welche mit einem "@" vorrangehen erweitert werde. Die "Hashtag" Funktionen bietet den Vorteil, dass dieser Tweet von anderen Nutzern unter diesem Thema \'f6ffentlich einsehbar ist. Die Erw\'e4hnung andere User, bei Twitter auch "Mention" genannten, hat den Vorteil das dieser Tweet an diese Person direkt gerichtet wird und die erw\'e4hnte Person eine Benachrichtigung erh\'e4lt, dass ein Tweet an Sie gerichtet wurden ist.\
+\\includegraphics[width=\\textwidth]\{Bildschirmfoto 2021-07-04 um 10.56.24.png\}\
+Beispiel f\'fcr ein Tweet mit Erw\'e4hnung eines Users und Themen Gruppierung:\\\\\
+Ein Tweet des Users "Apple", welcher sich direkt an de Nutzer "NadineRedlich" richtet und unter dem "Hashtag" "HinterdemMac" zu finden ist. Desweiteren ist neben dem "Herz" Symbole eine "1" zu sehen, was bedeutet das dieser Tweet von einer Person "geliked" wurden ist."\\\\\
+\\\\\
+Des Weiteren haben User die Funktion Tweets zu "Retweeted", was eine Art Zitierfunktion von Tweets darstellt.\\\\\
+\\includegraphics[width=\\textwidth]\{Bildschirmfoto 2021-07-04 um 11.13.28.png\}\
+Ein "Tweet-" Zitat des Users "HHU", welcher somit den Tweet f\'fcr seine "Follower" teilt und verbreitet.\\\\\
+\\\\\
+Als letztes, gibt es noch die M\'f6glicheit auf einen Tweet zu Antwortet. Somit k\'f6nnen User auf den Tweet reagieren und ihre Meinung dazu abgeben. Dadurch entstehen teilweise sehr lange und interressante Diskussionen, welche interressierte User nicht nur mitlesen k\'f6nnen sondern wenn Sie m\'f6chten, k\'f6nnen diese auch jederzeit mitdiskutieren. Dadurch das ein User an einer Konversation teilgenommen hat, also eine Antwort auf einen Tweet verfasst hat, sehen seine "Follower" diese Interaktion und haben somit auch die Chance die Konversation mitzuverfolgen und teilzunehmen.\\\\\
+\\includegraphics[width=\\textwidth]\{Bildschirmfoto 2021-07-04 um 11.12.55.png\}\
+Ein Tweet des Users "catalinmpit", welcher 3 Antworten von anderen Usern beeinhaltet. \\\\\
+\\\\\
+Und auf diese Form der Interaktionen, konzentriert sich diese Arbeit. Diese Tweets mit Antworten, welche ganze Konversationen darstellen, werden in dieser Arbeit analysiert, extrahiert und rekonstruiert.\
+\\section*\{2.2 Graphen\}\
+Ein Graph G ist ein Tupel bestehend aus G = (V, E) mit einer nicht leeren Knotenmenge V und einer Kantenmenge E. Visualisiert wird der Graph G, dadurch das die Knoten V als Kreis abgebildet werden und die Kanten E als Verbindungslinien zwischen den Knoten V.\\\\\
+\\includegraphics[width=\\textwidth]\{320px-Directed.svg.png\}\
+Beispiel Abbildung eines Graphen mit 3 Knoten und 3 Verbindungslinien zwischen diesen Knoten.\\\\\
+\\\\\
+In dieser Arbeit werden die Twitter Konversationen wie folgt im Graphen dargestellt:\
+Ein Tweet ist ein Knoten aus der Menge V und die Verbindungslinie aus der Menge E zeigt an, welcher Tweet worauf antwortet.\\\\\
+\\includegraphics[width=\\textwidth]\{Bildschirmfoto 2021-07-04 um 14.36.17.png\}\
+Beispiel einer Twitter Konversations Darstellung als Graph.\
+\\section*\{2.3 API - Schnittstellen\}\
+Eine API - Application Programming Interface ist eine Anwendungsschnittstelle, welche Daten und Funktionen f\'fcr Drittsysteme zur Verf\'fcgung stellt. In dieser Arbeit wird auf die Twitter API zugegriffen, welche Tweets, User etc. bereitstellt. Diese Funktionen bzw. Daten sind f\'fcr diese Arbeit essentiell um die ben\'f6tigten Konversationen extrahieren zu k\'f6nnen. \
+\\section*\{2.4 Docker\}\
+Docker ist eine Anwendung, welche Dienste wie Datenbanke oder \'e4hnliche Services in eine Container-Umgebung zum laufen bringt. Somit wird Docker in dieser Arbeit verwendet um die Datenbank zu verwalten, in welcher die extrahierten Tweets gespeichert werden.\
+\\section*\{2.5 Neo4j\}\
+Neo4j ist eine Open-Source-Graphenbank. Die anstelle von relationalen Datenbanken keine Tabelle sondern Graphen anlegt. Dieser Typ von Datenbank bietet sich in dieser Arbeit an, da die Tweets als Graph dargestellt werden.\
+\\section*\{2.6 Java und Spring Boot\}\
+In dieser Arbeit wird eine Spring Boot Applikation verwendet, welche als Programmiersprache Java im Einsatz hat. Hier kommt Spring Boot zum Einsatz, da dieses Framework die Konfigurationen zur TwitterAPI und auch zur Datenbank vereinfacht.\
+\\section*\{2.7 Technische Implementierung\}\
+Mit Hilfe von Docker wird zun\'e4chst die Datenbank Neo4j gestartet. In der Spring Boot Applikation wird dann eine Verbindung zur Twitter API und eine Verbindung zur Neo4j Datenbank aufgebaut. Durch die Java Library "Twitter4j" lassen sich dann vereinfacht die Tweets, User etc. von der Twitter-API extrahieren. Diese Tweets werden dann in die Graph-Datenbank abgelegt.\\\\\
+\\section*\{3 Ein Algorithmus zur L\'f6sung des Problems\}\
+In diesem Kapitel wird der Algorithmus vorgestellt, welcher sich um die f\'fcr diese Arbeit relevaten Twitter Konversationen k\'fcmmert. Dieser Algorithmus versucht m\'f6glichst gro\'dfe Konversationen auf der "Microblogging-Plattform" Twitter zu finden. Daraufhin ist das Ziel des Algorithmus, diese Konversationen \'fcber die Twitter API zu extrahieren. Wenn diese Twitter Konversations-Daten \'fcber die Twitter API extrahiert wurden, ist der Algorithmus daf\'fcr verantwortlich diese Konversation zu rekonstruieren und als Graph in der Neo4j Datenbank zu speichern. Dabei soll die Konversation so dargestellt werden, wie sie auf Twitter stattgefunden hat. Desweiteren m\'fcssen diese "Koversations-Graphen" erweitert werden, wenn auf Twitter die Konversation erweitert wurden ist.\\\\\
+\\\\\
+Erl\'e4uterung anhand eines kleinen Beispiels: \\\\\
+\\\\\
+\\includegraphics[width=6cm]\{Bildschirmfoto 2021-07-04 um 11.12.55.png\} \\\\\
+Start: Ausgangssituation der Twitter Konversation \\\\\
+\\includegraphics[width=6cm]\{Bildschirmfoto 2021-07-04 um 14.36.17.png\} \\\\\
+Ziel: Rekonstruktion der Twitter Konversation als Graph\
+\\section*\{3.1 Beschreibung der Vorgehensweise\}\
+Somit gilt als Hauptaufgabe des Algorithmus, Konversations-Daten zu sammeln und diese als Graph zu visualisieren. Dazu m\'fcssen als erstes brauchbare Konversationen auf Twitter gefunden werden. Um brauchbare Konversationen auf Twitter zu finden, geht der Algorithmus erstmal die "Trends" durch. "Trends" sind Hashtags, also gruppierte Themen, die zu diesem Zeitpunkt sehr viel Interaktion haben. Auf dem ausgew\'e4hlten "Trend", wird dann der Tweet rausgesucht, welcher die h\'f6chste Interaktion hat. Hier kann jedoch was die Interaktion angeht, nur auf die Retweet und Like Verh\'e4ltnisse geschaut werden, da die Twitter API keine Anzahl an "Replies", also Antworten auf Tweets bereitstellt. Wenn nun ein Tweet gefunden wurden ist, welcher mit hoher wahrscheinlichkeit eine ganze Konversation abbildet, muss dieser als n\'e4chstes extrahiert werden. Da die Twitter API jedoch keine "Replies", also Antworten auf Tweets zur Verf\'fcgung stellt, musste hier ein Algorithmus entwurfen werden, welcher die Konversationen extrahiert. Dazu wird auf der Twitter API, der "Haupt-" Tweet also der Ursprung der Konversation aufgerufen. Auf diesem "Haupt-" Tweet lassen sich dann alle stattgefundenen Tweets herausfiltern. Jedoch nicht sortiert und strukturiert, wie die Konversation stattgefunden hat. Deswegen m\'fcssen diese Tweets rund um den "Haupt-" Tweet \'fcber das Feld "getInReplyToStatusId()", welches die Twitter API zur Verf\'fcgung stellt, abgeglichen werden, um zu wissen das diese Tweets Antworten auf den Ursprung sind. Diese Antworten werden in einer Liste gespeichert. Wenn alle Antworten auf den "Haupt-" Tweet gefunden wurden sind, wird der "Haupt-" Tweet als Knoten in die Graph-Datenbank abgelegt. Daraufhin wird die \'fcber die Antwort-Liste iterriert und die Antwort Elemente in die Graph-Datenbank gespeichert, inklusive Verbindungslinie zum "Haupt-" Tweet. Dieser Vorgang wird rekursiv ausgef\'fchrt, um auf den Antwort Tweets, wieder alle Antworten zu finden. Diese rekursion wird so lange ausgef\'fchrt, bis zu keiner Antwort mehr eine weitere Antwort gefunden wird. Danach werden also bisherigen Konversationen, welche sich in der Graph-Datenbank befinden erweitert. Bezieungsweise werden die in der Datenbank gespeicherten Tweets, mit den dazugeh\'f6rigen Konversationen auf Twitter verglichen. Wenn es nun Abweichungen zwischen den Tweets auf Twitter und den in der Datenbank gibt, werden die Tweets in der Datenbank um die Abweichungen erweitert. \\\\\
+Im folgenden Abschnitt, wird der Algorithmus genau beschrieben und wie dieser in Form von Funktionen implementiert wurden ist.\
+\\section*\{3.2 Detaillierte Erkl\'e4rung des Algorithmus zur Extration von Konversationen\}\
+In diesem Abschnitt wird detailliert erkl\'e4rt, wie der Algorithmus aus einer Twitter Konversation einen Graphen in der Graph-Datenbank zeichnet.\\\\\
+\\\\\
+Zu Beginn des Algorithmus wird die Funktion "startCollectingConversations()" aufgerufen. Welche wie der Name schon sagt, anf\'e4ngt Konversationen zu sammeln. Zu Beginn der Funktion wird auf der Twitter API die Methode "getPlaceTrends()" aufgerufen. Diese Methode liefert von Twitter die aktuellen "Trends", je nach dem mit welcher "Location-woeid" die Methode aufgerufen wird. In diesem Fall wird die Methode mit der "Location-woid" = 23424829 aufgerufen, da die diese Ziffernfolge Deutschland steht. Somit erh\'e4lt man schonmal die Twitter "Trends" aus Deutschland. Daraufhin wird zuf\'e4llig eine Zahl zwischen 1 und 10 genommen. Diese Zahl bestimmt, mit welchem "Trend" aus Deutschland sich der Algorithmus in diesem Durchlauf besch\'e4ftigen soll. Wenn ein Trend dann ausgew\'e4hlt wurden ist, wird geschaut ob dieser "Trend-" Knoten schon in der Datenbank liegt. Wenn dies der Fall ist, wird nichts gemacht und wenn dies nicht der Fall sein sollte, wird eine "Trend-" Knoten mit dem Namen des "Trends" angelegt. Dies hat den Vorteil, das gesammelte Konversationen ihren "Trends" bzw. Themen zugeordnet werden k\'f6nnen. Aus diesem "Trend" Thema, werden dann \'fcber die Twitter API die ersten 100 Tweets geholt. F\'fcr diese ersten 100 Tweets, wird dann geschaut , welcher Tweet davon die meiste Interaktion hat. Wie schon gesagt ist das Messen der Interaktionen auf einen Tweet durch die Twitter API auf Retweeets und Linkes beschr\'e4nkt. Jedoch ist es wahscheinlicher, wenn ein Tweet viele Retweets und Likes hat, das auch "Replies" stattegfunden haben. Denn somit scheint der Tweet interressant f\'fcr andere User zu sein. \\\\\
+\\\\\
+Wenn nun beliebter Tweet gefunden wurden ist, wird im n\'e4chsten Schritt gepr\'fcft, ob dieser Tweet schon in der Datenbank vorhanden ist. Dies muss gemacht werden, da bei jedem Durchlauf der "Trend" aus dem der Tweet kommt zuf\'e4llig gew\'e4hlt wurden ist. Somit k\'f6nnte es ohne diese Pr\'fcfung zu Tweet Doppelungen kommen. Wenn dieser Tweet in der Datenbank gefunden wurden ist, wird mit dem n\'e4chsten Durchlauf gestarten und der Tweet somit verworfen. Wenn der Tweet nicht in der Datenbank gefunden wurden ist, wird fortgesetzt mit dem Abgreifen der Konversation rund um den Tweet.\\\\\
+\\\\\
+Wenn der Tweet sich noch nicht in der Datenbank befindet, wird als n\'e4chstes gepr\'fcft ob der Tweet ein Retweet ist. Dies wird \'fcber die Twitter API mit der Methode "getRetweetedStatus()" gepr\'fcft. Wenn es kein Retweet ist, kann direkt mit diesem Tweet weiter gemacht werden und ansonsten wird der "Original-" Tweet \'fcber die Twitter API geholt und damit weiter gemacht. Das holen des "Original-" Tweets ist \'fcber die "Query" durch die Methode(n) "getRetweetedStatus().getId()" m\'f6glich. Daraufhin wird der Tweet schonmal als Basis f\'fcr die Konversation in die Graph-Datenbank abgelegt. An diesem Knoten wird die TweetId, der Text des Tweets, das Erstelldatum und eine Makierung ob es sich um den "Haupt-" Tweet der Konversation handelt gepeichert. Diese Felder sind vorallem wichtig, wenn es darum geht die Konversation zu erweitert. Darauf wird im verlaufe dieses Kapitels noch n\'e4her eingegangen. \\\\\
+\\\\\
+\\includegraphics[width=5cm]\{Bildschirmfoto 2021-07-06 um 12.41.16.png\} \\\\\
+Beispiel eines Tweets in der Graph-Datenbank, welcher als Basis f\'fcr eine Konversations rekonstruktions gilt. Mit den Feldern: tweetId: 1410731664506982408, title: The United States Supreme Court has undercut voting rights in America, createdAt:2021-07-01T22:46:53Z und rootTweet: true\\\\\
+\\\\\
+Nach dem anlegen und abspeichern des Basis Tweets der Konversation, wird dieser Tweet auf m\'f6gliche Antworten untersucht. Somit wird sich die gesamte Konversation abbilden lassen. Da es wie in den vorherigen Kapiteln schon erw\'e4hnt, keine Methode in der Twitter API gibt um alle Anwtorten auf einen Tweet zu erhalten, m\'fcssen alle Tweets die mit dem Basis Tweet zusammenh\'e4ngen einzeln gepr\'fcft werden.\\\\\
+\\\\\
+Das holen aller Tweets die mit dem Basis Tweets in Verbindung stehen, kann gemacht werden in dem man mit der Twitter API nach der Basis TweetId sucht. Auf diesem Element, l\'e4sst sich dann eine Methode aufrufen, welche einem alle Tweets zu diesem Basis Tweet zur Verf\'fcgung stellt. "getAllTweets()" liefert eine Liste an Tweets. Jedoch ist damit nicht garantiert, dass das alles Antworten auf den Basis Tweet sind. Es k\'f6nnten auch Antworten auf Antworten des Basis Tweets sein. Deswegen muss danch noch gepr\'fcft werden ob die Antworten in der Liste eine passende Antwort-Id zum Basis Tweet haben. Die kann \'fcber die Twitter API mit der Methode "getInReplyToStatusId()" erfolgen. Somit kann man dann die Antworten rausfiltern, welche wirklich Anwtorten auf den Basis Tweet sind.\\\\\
+\\\\\
+\'dcber diese Liste wird nun iterriert. Bei jeder Iterration, wird die Antwort gespeichert und als neuer Knoten in die Graph-Datenbank gespeichert. Dieser neue Knoten wird mit einer Verbindungslinie in Beziehung zu seinem Basis Tweet gebracht. Diese gespeicherte Antwort wird nun als neuer Basis Tweet betrachtet um f\'fcr diese Antwort auf den Basis Tweet, wiederrum Antworten zu finden. Um so einen Konversationsweg zu vervollst\'e4ndigen. Dieses Verfahren wird nun rekursiv in die Tiefe und iterativ \'fcber die Antwort Liste in die Breite ausgef\'fchrt um die gesamte Konversation abzubilden. \\\\\
+\\\\\
+\\includegraphics[width=5cm]\{Bildschirmfoto 2021-07-06 um 14.07.21.png\} \\\\\
+Beispiel einer mehrstufigen Konversation, rund um einen Basis Tweet. Der Basis Tweet ist mit 6 Antworten verbunden. Und auf einer der Anwtorten, gibt es wieder 2 Anwtorten. Wobei eine Antwirt nur ein Element tief ist und die andere Antwort 3 Elemente tief ist. Dies sind alles Antworten auf die vorherigen Antworten. Hierbei gilt es zu beachten, das jede Anwtwort ein eigenst\'e4ndiger Tweet ist, mit einer ReplyId auf seinen vorg\'e4nger Tweet.\\\\\
+\\\\\
+Somit lassen sich Konversationen rund um Tweets aus Twitter abgreifen und als Graph darstellen. Im n\'e4chsten Abschnitt geht es darum, wie man Konversationen erweitern kann, nach dem diese schon in der Datenbank abgelegt wurden sind.\
+\\section*\{3.3 Detaillierte Erkl\'e4rung des Algorithmus zur Vervollst\'e4ndigung von bereits extrahierten Konversationen\}\
+Nach dem eine Konversation von Twitter extrahiert wurden ist, wird die Methode "extendConversations()" aufgerufen, um alle in der Datenbank befindlichen Konversationen zu erweitern. Insofern es Erweiterungen in diesen Konversationen auf Twitter gibt.\\\\\
+\\\\\
+\\\\\
+Um die schon in der Datenbank vorhandenen Konversationen zu erweitern, werden zun\'e4cht erst einmal alle Knoten bzw. Basis Tweets aus der Datenbank geholt. Dies ist m\'f6glich, da beim anlegen der Knoten, wie oben erw\'e4hnt, gespeicht wurden ist ob es ein Basis Tweet ist oder eben nicht. Daraufhin wird diese Liste an Basis Tweets gefiltert nach dem Erstelldatum der Tweets. Denn Statistisch gesehen erhalten Tweets im laufe der n\'e4chsten 2 Stunden nach dem erstellen die meisten Anwtorten. Nach 6 Stunden befinden sich schon \'fcber 80 Prozent der Antworten in der Konversation. Und nach 12 Stunden befinden sich \'fcber 90 Prozent der Antworten auf der Konversation. Wie aus bereits vergangenen Arbeiten hervorgeht. Somit werden in dieser Arbeit alle Tweets erweitert, bei denen das Erstelldatum nicht l\'e4nger als 12 Stunden her ist. Somit hat man die M\'f6glichekti m\'f6glichst alle Antworten abzugreifen aber gleicheitzig nicht zu viele Konversationen zu haben, das der Algorithmus zum erweitern zu viel Zeit in Anspruch nehmen w\'fcrde. \\\\\
+\\\\\
+Durch die Filterung, k\'f6nnen nun alle Tweets die nicht l\'e4nger als 12 Stunden existieren, erweitert werden. Damit diese Tweets erweitert werden k\'f6nnen, muss einzelnd \'fcber diese Tweets iterriert werden um diese zu analysieren. In jeder Iterration, wird zun\'e4chst geschaut, welche Antworten es auf Twitter zu diesem Tweet aktuell gibt. Diese Antworten werden dann mit den Knoten rund um den Basis Tweet verglichen und wenn es welche noch nicht in der Datenbank gibt, dann werden diese hinzugef\'fcgt. Es wird also f\'fcr diese Antwort ein neuer Knoten hinzugef\'fct und eine Verbindungslinie zum Basis Tweets gezogen. Daraufhin wird dann das gleiche Schema auf alle Antworten des Basis Tweets angewendet. Hier werden dann alle Antworten des Basis Tweets durchgegangen und geschaut ob es zu diesem Tweet mehr Antworten gibt, als sich aktuell in der Datenbank befinden. Wenn ja werden diese wieder eingef\'fcgt. Dieser Schritt wird wieder rekursiv ausgef\'fchrt, um in der Tiefe an alle Antworten zu gelangen. So hat man \'e4hnlich zu dem Verfahren in Abschnitt 3.2 einen Weg die Breite der Konversation, durch iteration, sowie die Tiefe der Konversation, durch rekursion zu erweitern.\\\\\
+\\\\\
+Durch dieses Verfahren lassen sich Konversationen im nachhinein vervollst\'e4ndigen.\
+\\section*\{3.5 Zusammenhang der Algorithmen aus Abschnitt 3.3 und Abschnitt 3.4\}\
+\\end\{document\}\
+}
