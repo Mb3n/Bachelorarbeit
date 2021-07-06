@@ -29,9 +29,27 @@ public class TweetController {
 
 		//tweetRepository.save(Tweet.builder().tweetId(2).title("ausSpring").reply(rootTweet).build());
 
+
 		tweetService.startDiscussion();
-		//tweetService.getLatestTweets();
+		//tweetService.extendConversation();
 
 		return tweetRepository.findAll();
+
 	}
+
+	/*
+	@GetMapping
+	public void fillConversations() throws TwitterException, InterruptedException {
+
+		Tweet tweet = tweetRepository.findTweetByTweetId(Long.parseLong("1404492691652579329"));
+		List<Tweet> replies = tweetRepository.findAllByReplyId(tweet.getId());
+
+		replies.forEach(a -> {
+			//tweetService.getDiscussion(a);
+		});
+	}
+
+	 */
+
 }
+

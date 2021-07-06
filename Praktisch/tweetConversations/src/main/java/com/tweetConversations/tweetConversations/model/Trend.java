@@ -1,6 +1,5 @@
 package com.tweetConversations.tweetConversations.model;
 
-import java.util.Date;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
@@ -12,30 +11,13 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 @Node
 @Data
 @Builder
-public class Tweet {
+public class Trend {
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	private String title;
 
-	private long tweetId;
-
-	@Relationship(type="REPLYTO", direction=Relationship.Direction.OUTGOING)
-	private Tweet reply;
-
-	@Relationship(type="PARTOF", direction=Relationship.Direction.OUTGOING)
-	private Trend trend;
-
-	private Date createdAt;
-
-	private Boolean rootTweet;
-
-	private Integer depth;
-
-	private Integer nodes;
-
-	private Integer justDirectReply;
-
-	private List<Integer> allDepths;
+	@Relationship(type="CONTAINS", direction=Relationship.Direction.INCOMING)
+	private List<Tweet> containsTweets;
 }
