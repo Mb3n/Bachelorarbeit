@@ -32,8 +32,8 @@ Des Weiteren sind nach dem einmaligen Abgreifen der Daten, die Konversationen ni
 \\\\\
 \\\\\
 \\\\\
-\
-\\section*\{1.2 Aufbau der Arbeit\}\
+\\section*\{1.2 Verwandte Arbeiten\}\
+\\section*\{1.3 Aufbau der Arbeit\}\
 \
 In Kapitel 2 werden alle technischen und fachlichen sowie Konzepte und Definitionen vorgestellt. \\\\\
 \\\\\
@@ -148,6 +148,21 @@ Um die schon in der Datenbank vorhandenen Konversationen zu erweitern, werden zu
 Durch die Filterung, k\'f6nnen nun alle Tweets die nicht l\'e4nger als 12 Stunden existieren, erweitert werden. Damit diese Tweets erweitert werden k\'f6nnen, muss einzelnd \'fcber diese Tweets iterriert werden um diese zu analysieren. In jeder Iterration, wird zun\'e4chst geschaut, welche Antworten es auf Twitter zu diesem Tweet aktuell gibt. Diese Antworten werden dann mit den Knoten rund um den Basis Tweet verglichen und wenn es welche noch nicht in der Datenbank gibt, dann werden diese hinzugef\'fcgt. Es wird also f\'fcr diese Antwort ein neuer Knoten hinzugef\'fct und eine Verbindungslinie zum Basis Tweets gezogen. Daraufhin wird dann das gleiche Schema auf alle Antworten des Basis Tweets angewendet. Hier werden dann alle Antworten des Basis Tweets durchgegangen und geschaut ob es zu diesem Tweet mehr Antworten gibt, als sich aktuell in der Datenbank befinden. Wenn ja werden diese wieder eingef\'fcgt. Dieser Schritt wird wieder rekursiv ausgef\'fchrt, um in der Tiefe an alle Antworten zu gelangen. So hat man \'e4hnlich zu dem Verfahren in Abschnitt 3.2 einen Weg die Breite der Konversation, durch iteration, sowie die Tiefe der Konversation, durch rekursion zu erweitern.\\\\\
 \\\\\
 Durch dieses Verfahren lassen sich Konversationen im nachhinein vervollst\'e4ndigen.\
-\\section*\{3.5 Zusammenhang der Algorithmen aus Abschnitt 3.3 und Abschnitt 3.4\}\
+\\section*\{3.5 Verflechtung der Algorithmen aus Abschnitt 3.3 und Abschnitt 3.4\}\
+Um einen Datensatz an Konversationen sammeln zu k\'f6nnen, wurden die Algorithmen aus Abschnitt 3.3 und Abschnitt 3.4 mit einander Verkn\'fcft. Es wird zu Beginn immer der Algorithmus aus Abschnitt 3.3 ausgef\'fchrt. Dieser legt dann eine Konversation von Twitter als Graph an. Daraufhin wird dann der Algorithmus von Abschnitt 3.4 ausgef\'fchrt, in dem dieser am Ende von Abschnitt 3.3 aufgerufen wurden ist. Nachdem der Algorithmus von Abschnitt 3.4 durchgelaufen ist, und somit alle in Konversationen die sich in der Datenbank befinden erweitert hat, wird wieder der Algorithmus aus Abschnitt 3.3 aufgerufen. So ergibt sich ein immer weiter fortlaufendes Verfahren welchen nicht nur m\'f6glichst viele Konversationen sammelt, sondern diese auch immer wieder erweitert.\\\\\
+\\\\\
+Die folgenden beiden Abschnitten in diesem Kapitel sind Erweiterungen, um in Kapitel 4 besser auf die Analysen des Datensatzen eingehen zu k\'f6nnen.\
+\\section*\{3.6 Guppierung der Konversationen nach Themenzugeh\'f6rigkeit\}\
+Wie im Abschnitt 3.3 erkl\'e4rt, werden die Twitter Konversationen nach Interaktionen sortiert. Zuf\'e4llig wird dann ein Tweet aus den Deutschen Twitter Trends gew\'e4hlt. Um bei der Sammlung der Konversationen den Themen Bezug der einzelnen Konversationen herzustellen, wird der Trend aus dem die Konversation stammt mit in der Datenbank gespeichert. Dieser Twitter Trend wird dann mit jedem Basis Tweet in Verbindung gebracht, der aus diesem Trend entnommen worden ist. \\\\\
+\\\\\
+\\includegraphics[width=12cm]\{Bildschirmfoto 2021-07-07 um 14.36.53.png\} \\\\\
+Wie hier zu sehen ist, gibt es ein Twitter Trend. Dies ist der in blau dargestellte Knoten. Und zwei Twitter Konversationen die \'fcber dieses Thema gef\'fchrt wurden sind. Die beiden Konversationen sind die orangenen Knoten die links und rechts vom blauen Knoten ausgehen.\
+\\section*\{3.7 Grundlegenden Graph-Analysen\}\
+Um in Kapitel 4 die entstandenden Datens\'e4tze evaluieren zu k\'f6nnen, wurden die gespeicherten Knoten um Graph-Analysen erweitert. Somit wird an den Graphen gespeichert, wie Tief die Graphen an der tiefsten Stelle sind. \\\\\
+\\\\\
+\\includegraphics[width=5cm]\{Bildschirmfoto 2021-07-06 um 14.07.21.png\} \\\\\
+Dieser Graph hat zum Beispiel die tiefe 4. Da vom Basis Tweet aus eine Konversation mit 4 Antworten die auf einander aufbauen, stattgefunden hat. \\\\\
+\\\\\
+Au\'dferdem wird noch die Gr\'f6\'dfe der Graphen gemessen. In dem gez\'e4hlt wird, wie viele Antworten es insgesamt bei dieser Konversation gab. Somit h\'e4tte der Graph aus der Abbliden oben eine Gr\'f6\'dfe von 9. Denn rund um den Basis Tweet, haben 9 Antworten stattgefunden.\
 \\end\{document\}\
 }
