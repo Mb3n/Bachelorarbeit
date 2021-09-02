@@ -45,10 +45,10 @@ public class TweetService {
 		try {
 
 			Trend trendQuery = getTrendQuery(trends);
-
 			Status mostFollowedUsersTweetT = getMostInteractedTweetFromTrend(trendQuery);
 
 			if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweetT.getId()).isEmpty()) {
+
 				System.out.println("Zwischen status: " + mostFollowedUsersTweetT);
 
 				Tweet baseTweet = null;
@@ -97,12 +97,6 @@ public class TweetService {
 
 		int value = random.nextInt(max + min) + min;
 		Trend trendQuery = trends.getTrends()[value];
-		String trendTitle = trendQuery.getName();
-
-		Optional<com.tweetConversations.tweetConversations.model.Trend> trendInDB = trendRepository.findByTitle(trendTitle);
-		if (trendInDB.isEmpty()) {
-			trendRepository.save(com.tweetConversations.tweetConversations.model.Trend.builder().title(trendTitle).build());
-		}
 		return trendQuery;
 	}
 
@@ -173,6 +167,9 @@ public class TweetService {
 		if (mostFollowedUsersTweetT.getRetweetedStatus() == null && mostFollowedUsersTweetT.getQuotedStatus() == null) {
 
 			if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweetT.getId()).isEmpty()) {
+
+				saveTrend(trend);
+
 				Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweetT.getId()).title(mostFollowedUsersTweetT.getText()).rootTweet(true).createdAt(mostFollowedUsersTweetT.getCreatedAt()).trend(trendRepository.findByTitle(trend.getName()).get()).build());
 				tweet.set(rootTweet);
 				System.out.println(" TWEET MIT grosser Follower Zahl 2 : " + mostFollowedUsersTweetT);
@@ -197,7 +194,23 @@ public class TweetService {
 
 			mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
 
+				try {
+					if (mostFollowedUsersTweet.getQuotedStatus() != null) {
+						getQuoted(mostFollowedUsersTweet, trend);
+					}
+
+					if (mostFollowedUsersTweet.getRetweetedStatus() != null) {
+						getRetweeted(mostFollowedUsersTweet, trend);
+					}
+
+				} catch (TwitterException e) {
+					//System.out.println(e);
+				}
+
 				if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweet.getId()).isEmpty()) {
+
+					saveTrend(trend);
+
 					Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).rootTweet(true).createdAt(mostFollowedUsersTweet.getCreatedAt()).trend(trendRepository.findByTitle(trend.getName()).get()).build());
 					tweet.set(rootTweet);
 					List<Status> discussionOnRootTweet = null;
@@ -219,7 +232,22 @@ public class TweetService {
 
 			mostFollowedUsersTweetOpt.ifPresent(mostFollowedUsersTweet -> {
 
+				try {
+					if (mostFollowedUsersTweet.getQuotedStatus() != null) {
+						getQuoted(mostFollowedUsersTweet, trend);
+					}
+
+					if (mostFollowedUsersTweet.getRetweetedStatus() != null) {
+						getRetweeted(mostFollowedUsersTweet, trend);
+					}
+
+				} catch (TwitterException e) {
+					//System.out.println(e);
+				}
+
 				if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweet.getId()).isEmpty()) {
+
+					saveTrend(trend);
 
 					Tweet rootTweet = tweetRepository.save(Tweet.builder().tweetId(mostFollowedUsersTweet.getId()).title(mostFollowedUsersTweet.getText()).rootTweet(true).createdAt(mostFollowedUsersTweet.getCreatedAt()).trend(trendRepository.findByTitle(trend.getName()).get()).build());
 					tweet.set(rootTweet);
@@ -234,6 +262,15 @@ public class TweetService {
 
 		}
 		return null;
+	}
+
+	private void saveTrend(Trend trend) {
+		String trendTitle = trend.getName();
+
+		Optional<com.tweetConversations.tweetConversations.model.Trend> trendInDB = trendRepository.findByTitle(trendTitle);
+		if (trendInDB.isEmpty()) {
+			trendRepository.save(com.tweetConversations.tweetConversations.model.Trend.builder().title(trendTitle).build());
+		}
 	}
 
 	private List<Integer> countDepth(Tweet tweet, int deep, List<Integer> depths) {
@@ -388,7 +425,7 @@ public class TweetService {
 			long diffHours = diff / (60 * 60 * 1000);
 			System.out.println("DIFF ON ROOT TWEETS: " + diffHours);
 
-			if (diffHours <= 12) {
+			if (diffHours <= 8) {
 				try {
 					System.out.println("TWEET ERWEITERN: " + rootTweet.getTweetId());
 					Status status = twitter.showStatus(rootTweet.getTweetId());
