@@ -26,7 +26,6 @@ import twitter4j.TwitterException;
 public class TweetService {
 
 	private static final Integer GERMANY_LOCATION_WOEID = 23424829;
-	public static final long HOUR = 3600*1000; // in milli-seconds.
 
 	@Autowired
 	private Twitter twitter;
@@ -48,8 +47,6 @@ public class TweetService {
 			Status mostFollowedUsersTweetT = getMostInteractedTweetFromTrend(trendQuery);
 
 			if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweetT.getId()).isEmpty()) {
-
-				System.out.println("Zwischen status: " + mostFollowedUsersTweetT);
 
 				Tweet baseTweet = null;
 
@@ -89,7 +86,6 @@ public class TweetService {
 	}
 
 	private Trend getTrendQuery(Trends trends) {
-		//random fillen
 		int min = 0;
 		int max = 10;
 
@@ -104,20 +100,17 @@ public class TweetService {
 		AtomicInteger sum = new AtomicInteger();
 		calcNodesSum(baseTweet, sum);
 		if (sum.get() != 0) {
-			//Tweet tweet = tweetRepository.findByTweetId(baseTweet.getTweetId());
 			baseTweet.setNodes(sum.get());
 			tweetRepository.save(baseTweet);
 		}
 	}
 
 	private void calcConversationDepth(Tweet baseTweet) {
-		//System.out.println("Thats the Tweet to count: " + mostFollowedUsersTweetT.getId());
 		ArrayList<Integer> depths = new ArrayList<>();
 		ArrayList<Integer> depthsOfDepths = new ArrayList<>();
 
 		if (baseTweet != null) {
 			if (baseTweet.getTweetId() != 0) {
-				//Tweet tweet = tweetRepository.findByTweetId(baseTweet.getTweetId());
 				List<Tweet> replies = tweetRepository.findAllByReplyId(baseTweet.getId());
 				replies.forEach(reply -> {
 					List<Integer> newDeeps = countDepth(reply, 1, depths);
@@ -126,10 +119,8 @@ public class TweetService {
 				});
 
 				if (!CollectionUtils.isEmpty(depthsOfDepths)) {
-					//System.out.println("All Depth: " + depthsOfDepths);
 					int highest = Collections.max(depthsOfDepths);
 					baseTweet.setDepth(highest);
-					//tweet.setAllDepths(depthsOfDepths);
 					if (replies.size() > depthsOfDepths.size()) {
 						baseTweet.setJustDirectReply(replies.size() - depthsOfDepths.size());
 					}
@@ -141,18 +132,13 @@ public class TweetService {
 	}
 
 	private void calcNodesSum(Tweet baseTweet, AtomicInteger sum) {
-		//System.out.println("Thats the Tweet to count: " + mostFollowedUsersTweetT.getId());
-		//AtomicInteger sum = new AtomicInteger();
-		//sum.set(newValue);
 
 		if (baseTweet != null) {
 			if (baseTweet.getTweetId() != 0) {
-				//Tweet tweet = tweetRepository.findByTweetId(baseTweet.getTweetId());
 				System.out.println("Thats the Tweet tweet: " + baseTweet);
 				List<Tweet> replies = tweetRepository.findAllByReplyId(baseTweet.getId());
 				replies.forEach(reply -> {
 
-					///int nodeSum = recursiveNodeSum(reply, sum.get());
 					calcNodesSum(reply, sum);
 				});
 				if(replies.size() > 0) {
@@ -204,7 +190,7 @@ public class TweetService {
 					}
 
 				} catch (TwitterException e) {
-					//System.out.println(e);
+					System.out.println(e);
 				}
 
 				if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweet.getId()).isEmpty()) {
@@ -242,7 +228,7 @@ public class TweetService {
 					}
 
 				} catch (TwitterException e) {
-					//System.out.println(e);
+					System.out.println(e);
 				}
 
 				if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweet.getId()).isEmpty()) {
@@ -368,7 +354,6 @@ public class TweetService {
 			try {
 				query.setCount(100);
 			} catch (Throwable e) {
-				// enlarge buffer error?
 				query.setCount(30);
 			}
 
