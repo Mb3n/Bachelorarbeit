@@ -38,7 +38,7 @@ public class TweetService {
 
 	public void startDiscussion() throws TwitterException, InterruptedException {
 
-
+        //deutschen Trends abfragen
 		Trends trends = twitter.getPlaceTrends(GERMANY_LOCATION_WOEID);
 
 		try {
@@ -49,6 +49,8 @@ public class TweetService {
 			if (tweetRepository.findTweetsByTweetId(mostFollowedUsersTweetT.getId()).isEmpty()) {
 
 				Tweet baseTweet = null;
+
+				//rekursiv den Ursprungs-Tweet suchen und zu jedem Wurzel-Tweet Konversation extrahieren
 
 				Tweet quatedTweet = getQuoted(mostFollowedUsersTweetT, trendQuery);
 				if (quatedTweet != null) {
@@ -85,6 +87,7 @@ public class TweetService {
 
 	}
 
+	//eine der ersten 10 Trends zufaellig auswaehlen
 	private Trend getTrendQuery(Trends trends) {
 		int min = 0;
 		int max = 10;
@@ -96,6 +99,7 @@ public class TweetService {
 		return trendQuery;
 	}
 
+	//KOnversationsgroesse berechnen
 	private void calcConversationSize(Tweet baseTweet) {
 		AtomicInteger sum = new AtomicInteger();
 		calcNodesSum(baseTweet, sum);
@@ -105,6 +109,7 @@ public class TweetService {
 		}
 	}
 
+	//tiefsten Konversationszweig berechnen
 	private void calcConversationDepth(Tweet baseTweet) {
 		ArrayList<Integer> depths = new ArrayList<>();
 		ArrayList<Integer> depthsOfDepths = new ArrayList<>();
@@ -293,6 +298,7 @@ public class TweetService {
 		});
 	}
 
+	//Tweet mit den meisten Interaktionen aus dem Trend Thema suchen
 	private Status getMostInteractedTweetFromTrend(Trend trendQuery) throws TwitterException {
 
 		System.out.println("Trend: " + trendQuery.getName());
@@ -400,6 +406,7 @@ public class TweetService {
 		return replies;
 	}
 
+	//in der DB vorhandene Konversationen erweitern
 	public void extendConversation() {
 
 		//alle RootTweets aus der DB holen
@@ -410,7 +417,7 @@ public class TweetService {
 			long diffHours = diff / (60 * 60 * 1000);
 			System.out.println("DIFF ON ROOT TWEETS: " + diffHours);
 
-			if (diffHours <= 8) {
+			if (diffHours <= 6) {
 				try {
 					System.out.println("TWEET ERWEITERN: " + rootTweet.getTweetId());
 					Status status = twitter.showStatus(rootTweet.getTweetId());

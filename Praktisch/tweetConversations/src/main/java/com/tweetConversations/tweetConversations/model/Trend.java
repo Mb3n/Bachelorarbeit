@@ -17,7 +17,4 @@ public class Trend {
 	private Long id;
 
 	private String title;
-
-	@Relationship(type="CONTAINS", direction=Relationship.Direction.INCOMING)
-	private List<Tweet> containsTweets;
 }
